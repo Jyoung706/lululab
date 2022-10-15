@@ -1,3 +1,7 @@
 import reservationDao from "../models/reservationDao";
 
-export default {};
+const possibleListService = async () => {
+  return await reservationDao.getPossibleList();
+};
+
+export default { possibleListService };

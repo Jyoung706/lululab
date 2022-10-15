@@ -1,6 +1,9 @@
 import { DataSource } from "typeorm";
+import dotenv from "dotenv";
 
-const myDataSource = new DataSource({
+dotenv.config();
+
+export const myDataSource = new DataSource({
   type: "mysql",
   host: process.env.TYPEORM_HOST,
   port: 3306,
@@ -17,5 +20,3 @@ myDataSource
   .catch((err) => {
     console.error("initiate fail", err);
   });
-
-export default myDataSource;
