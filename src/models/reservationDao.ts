@@ -23,6 +23,17 @@ const getHospitalIntervalTime = async (id: number) => {
   );
 };
 
+const getImpossibleTime = async (id: number) => {
+  return await myDataSource.query(
+    `SELECT date,time,time_interval 
+      FROM reservations
+      JOIN hospitals ON reservations.hospital_id = hospitals.id
+      WHERE hospitals.id = ?;
+    `,
+    [id]
+  );
+};
+
 const getVerifyTime = async (id: number) => {
   return await myDataSource.query(
     `SELECT lunch_time, open, close, time_interval,is_active,
@@ -131,6 +142,7 @@ const modifyReservation = async (id: number, data: ReservaionChangeDto) => {
 export default {
   getPossibleList,
   getHospitalIntervalTime,
+  getImpossibleTime,
   getVerifyTime,
   getReservation,
   getUserEmail,

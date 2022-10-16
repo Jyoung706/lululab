@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.get("/list", reservationController.possibleListController);
 
+router.get("/time", reservationController.impossibleTimeController);
+
 router.post("/reservation", errorHandler(reservationController.reservationController));
 
 router.get("/reservaion-list", errorHandler(reservationController.reservationListController));

@@ -9,6 +9,12 @@ const possibleListController = async (req: Request, res: Response) => {
   res.status(200).json(list);
 };
 
+const impossibleTimeController = async (req: Request, res: Response) => {
+  const id = req.query.hospital_id;
+  const data = await reservationService.impossibleTimeService(id);
+  res.status(200).json(data);
+};
+
 const reservationController = async (req: Request, res: Response) => {
   const userId: any = req.headers.userid;
   const data: ReservationDto = req.body;
@@ -43,4 +49,5 @@ export default {
   reservationController,
   reservationListController,
   reservationChangeController,
+  impossibleTimeController,
 };

@@ -8,6 +8,19 @@ const possibleListService = async () => {
   return await reservationDao.getPossibleList();
 };
 
+const impossibleTimeService = async (id: any) => {
+  const data = await reservationDao.getImpossibleTime(id);
+  data.map((val: any) => {
+    const date = val.date.toLocaleString().split(",", 1)[0].split("/");
+    let tmp = date[2];
+    date.splice(2, 1);
+    date.unshift(tmp);
+    const newdate = date[0] + "-" + date[1] + "-" + date[2];
+    val.date = newdate;
+  });
+  return data;
+};
+
 const reservationService = async (data: ReservationDto, userId: number) => {
   checkDate(data.date);
 
@@ -111,4 +124,5 @@ export default {
   reservationService,
   reservationListService,
   reservationChangeService,
+  impossibleTimeService,
 };
