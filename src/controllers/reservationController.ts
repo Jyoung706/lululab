@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { validateUser } from "../common_function/validate_user";
-import { ReservaionListDto, ReservationDto } from "../Dto/reservationDto";
+import { ReservaionChangeDto, ReservaionListDto, ReservationDto } from "../Dto/reservationDto";
 import { NotExistError } from "../middleware/error_creator";
 import reservationService from "../services/reservationService";
 
@@ -30,4 +30,17 @@ const reservationListController = async (req: Request, res: Response) => {
   res.status(200).json(list);
 };
 
-export default { possibleListController, reservationController, reservationListController };
+const reservationChangeController = async (req: Request, res: Response) => {
+  const userId: any = req.headers.userid;
+  const data: ReservaionChangeDto = req.body;
+  await validateUser(userId);
+  await reservationService.reservationChangeService(data);
+  res.status(200).json({ message: "modify success" });
+};
+
+export default {
+  possibleListController,
+  reservationController,
+  reservationListController,
+  reservationChangeController,
+};

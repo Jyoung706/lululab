@@ -10,4 +10,9 @@ router.post("/reservation", errorHandler(reservationController.reservationContro
 
 router.get("/reservaion-list", errorHandler(reservationController.reservationListController));
 
+router.patch(
+  "/change-reservation",
+  errorHandler(reservationController.reservationChangeController)
+);
+
 export default router;
