@@ -1,7 +1,12 @@
 import reservationDao from "../models/reservationDao";
 import { BadRequestError } from "../middleware/error_creator";
 
-export const checkTime = async (id: number, checkDate: string, checkTime: string) => {
+export const checkTime = async (
+  id: number,
+  checkDate: string,
+  checkTime: string,
+  interval: string
+) => {
   const [hospitaldata] = await reservationDao.getVerifyTime(id);
 
   const date = new Date(checkDate);
@@ -40,7 +45,25 @@ export const checkTime = async (id: number, checkDate: string, checkTime: string
     throw new BadRequestError("hospital lunch time");
   }
 
-  if (verifyInterval !== "00" && verifyInterval !== "30") {
-    throw new BadRequestError("check time interval");
+  if (interval === "30m") {
+    if (verifyInterval !== "00" && verifyInterval !== "30") {
+      throw new BadRequestError("check time interval");
+    }
+  }
+  if (interval === "1h") {
+    if (verifyInterval !== "00") {
+      throw new BadRequestError("check time interval");
+    }
+  }
+};
+
+export const checkDate = (date: string) => {
+  let now = new Date().toLocaleString().split(",", 1)[0].split("/");
+  let tmp = now[2];
+  now.splice(2, 1);
+  now.unshift(tmp);
+  const newNow = now[0] + "-" + now[1] + "-" + now[2];
+  if (newNow > date) {
+    throw new BadRequestError("check reservation date");
   }
 };
