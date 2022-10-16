@@ -37,6 +37,22 @@ const getReservation = async (hospitalId: number, date: string, time: string) =>
   );
 };
 
+const getUserEmail = async (userId: number) => {
+  return await myDataSource.query(
+    `SELECT email FROM users WHERE id = ?;
+    `,
+    [userId]
+  );
+};
+
+const getHospitalName = async (hospitalId: number) => {
+  return await myDataSource.query(
+    `SELECT name FROM hospitals WHERE id = ?;
+    `,
+    [hospitalId]
+  );
+};
+
 const createReservation = async (data: ReservationDto, userId: number) => {
   await myDataSource.query(
     `INSERT INTO 
@@ -107,6 +123,8 @@ export default {
   getPossibleList,
   getVerifyTime,
   getReservation,
+  getUserEmail,
+  getHospitalName,
   createReservation,
   getReservaionList,
   getHospitalId,
