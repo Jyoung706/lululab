@@ -11,3 +11,11 @@ export class ReservaionListDto {
   reservation_name?: string;
   patient_name?: string;
 }
+
+export class ReservaionChangeDto {
+  reservation_number: string;
+  patient_name: string;
+  reservation_date: string;
+  reservation_time: string;
+  clinic_type_id: number;
+}

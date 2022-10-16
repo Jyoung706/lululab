@@ -1,4 +1,4 @@
-import { ReservaionListDto, ReservationDto } from "../Dto/reservationDto";
+import { ReservaionChangeDto, ReservaionListDto, ReservationDto } from "../Dto/reservationDto";
 import { myDataSource } from "../typeorm/typeorm";
 
 const getPossibleList = async () => {
@@ -14,7 +14,7 @@ const getPossibleList = async () => {
   );
 };
 
-const getValidateTime = async (id: number) => {
+const getVerifyTime = async (id: number) => {
   return await myDataSource.query(
     `SELECT lunch_time, open, close, time_interval,is_active,
             saturday, saturday_close_time, sunday, sunday_close_time,
@@ -27,7 +27,7 @@ const getValidateTime = async (id: number) => {
   );
 };
 
-const getValidateReservation = async (hospitalId: number, date: string, time: string) => {
+const getReservation = async (hospitalId: number, date: string, time: string) => {
   return await myDataSource.query(
     `SELECT hospital_id, date, time 
       FROM reservations 
@@ -71,10 +71,45 @@ const getReservaionList = async (data: ReservaionListDto) => {
   );
 };
 
+const getHospitalId = async (id: string) => {
+  return await myDataSource.query(
+    `SELECT id,hospital_id 
+      FROM reservations
+      WHERE reservation_number = ?;
+    `,
+    [id]
+  );
+};
+
+const checkDate = async (id: number, date: string, time: string) => {
+  return await myDataSource.query(
+    `SELECT date,time 
+      FROM reservations 
+      WHERE hospital_id = ? 
+      AND date = ? 
+      AND time = ?;
+    `,
+    [id, date, time]
+  );
+};
+
+const modifyReservation = async (id: number, data: ReservaionChangeDto) => {
+  await myDataSource.query(
+    `UPDATE  reservations 
+      SET patient_name = ?, date = ?, time = ?, clinic_type_id = ?
+      WHERE id = ?;
+    `,
+    [data.patient_name, data.reservation_date, data.reservation_time, data.clinic_type_id, id]
+  );
+};
+
 export default {
   getPossibleList,
-  getValidateTime,
-  getValidateReservation,
+  getVerifyTime,
+  getReservation,
   createReservation,
   getReservaionList,
+  getHospitalId,
+  checkDate,
+  modifyReservation,
 };
