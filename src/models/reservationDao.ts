@@ -14,6 +14,15 @@ const getPossibleList = async () => {
   );
 };
 
+const getHospitalIntervalTime = async (id: number) => {
+  return await myDataSource.query(
+    `SELECT time_interval 
+      FROM hospitals where id = ?;
+    `,
+    [id]
+  );
+};
+
 const getVerifyTime = async (id: number) => {
   return await myDataSource.query(
     `SELECT lunch_time, open, close, time_interval,is_active,
@@ -121,6 +130,7 @@ const modifyReservation = async (id: number, data: ReservaionChangeDto) => {
 
 export default {
   getPossibleList,
+  getHospitalIntervalTime,
   getVerifyTime,
   getReservation,
   getUserEmail,

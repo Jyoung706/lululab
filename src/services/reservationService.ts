@@ -1,7 +1,7 @@
 import { ReservaionChangeDto, ReservaionListDto, ReservationDto } from "../Dto/reservationDto";
 import reservationDao from "../models/reservationDao";
 import { BadRequestError, NotExistError } from "../middleware/error_creator";
-import { checkTime } from "../common_function/checkDate";
+import { checkDate, checkTime } from "../common_function/checkDate";
 import { sendGMail } from "../common_function/nodeemailer";
 
 const possibleListService = async () => {
@@ -9,7 +9,10 @@ const possibleListService = async () => {
 };
 
 const reservationService = async (data: ReservationDto, userId: number) => {
-  await checkTime(data.hospital_id, data.date, data.time);
+  checkDate(data.date);
+
+  const [timeInterval] = await reservationDao.getHospitalIntervalTime(data.hospital_id);
+  await checkTime(data.hospital_id, data.date, data.time, timeInterval.time_interval);
 
   const [reservationData] = await reservationDao.getReservation(
     data.hospital_id,
@@ -73,6 +76,9 @@ const reservationListService = async (data: ReservaionListDto) => {
 
 const reservationChangeService = async (data: ReservaionChangeDto) => {
   const [hospitalId] = await reservationDao.getHospitalId(data.reservation_number);
+  if (!hospitalId) {
+    throw new NotExistError("Not exist data");
+  }
 
   const checkDate = await reservationDao.checkDate(
     hospitalId.hospital_id,
@@ -88,7 +94,14 @@ const reservationChangeService = async (data: ReservaionChangeDto) => {
     throw new NotExistError("not exist clinic_type");
   }
 
-  await checkTime(hospitalId.hospital_id, data.reservation_date, data.reservation_time);
+  const [interval] = await reservationDao.getHospitalIntervalTime(hospitalId.hospital_id);
+
+  await checkTime(
+    hospitalId.hospital_id,
+    data.reservation_date,
+    data.reservation_time,
+    interval.time_interval
+  );
 
   await reservationDao.modifyReservation(hospitalId.id, data);
 };

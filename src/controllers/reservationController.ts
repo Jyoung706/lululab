@@ -16,7 +16,7 @@ const reservationController = async (req: Request, res: Response) => {
   const [reservationNumber] = await reservationService.reservationService(data, userId);
 
   res.status(200).json({
-    message: "reservation success",
+    message: "reservation success Check your email",
     reservaion_number: reservationNumber.reservation_number,
   });
 };
