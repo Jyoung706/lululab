@@ -23,7 +23,7 @@ const reservationController = async (req: Request, res: Response) => {
 
   res.status(200).json({
     message: "reservation success Check your email",
-    reservaion_number: reservationNumber.reservation_number,
+    reservation_number: reservationNumber.reservation_number,
   });
 };
 
