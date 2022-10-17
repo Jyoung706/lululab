@@ -22,24 +22,24 @@ export const checkTime = async (
 
   if (date.getDay() === 6) {
     if (hospitaldata.saturday === 0) {
-      throw new BadRequestError("inavailable in saturday");
+      throw new BadRequestError("unavailable in saturday");
     }
     if (checkTime >= hospitaldata.saturday_close_time) {
-      throw new BadRequestError("inavailable time");
+      throw new BadRequestError("unavailable time");
     }
   }
 
   if (date.getDay() === 0) {
     if (hospitaldata.sunday === 0) {
-      throw new BadRequestError("inavailable in sunday");
+      throw new BadRequestError("unavailable in sunday");
     }
     if (checkTime >= hospitaldata.sunday_close_time) {
-      throw new BadRequestError("inavailable time");
+      throw new BadRequestError("unavailable time");
     }
   }
 
   if (checkTime > hospitaldata.close || checkTime < hospitaldata.open) {
-    throw new BadRequestError("inavailable time");
+    throw new BadRequestError("unavailable time");
   }
   if (time > lunchStart && time < lunchEnd) {
     throw new BadRequestError("hospital lunch time");
