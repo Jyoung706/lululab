@@ -10,7 +10,7 @@ router.get("/time", reservationController.impossibleTimeController);
 
 router.post("/reservation", errorHandler(reservationController.reservationController));
 
-router.get("/reservaion-list", errorHandler(reservationController.reservationListController));
+router.get("/reservation-list", errorHandler(reservationController.reservationListController));
 
 router.patch(
   "/change-reservation",
