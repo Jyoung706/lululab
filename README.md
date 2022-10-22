@@ -73,8 +73,8 @@ $ npm run start
 ## 5. 프로젝트 구조
 ```
 .
-├── db
-│   └── migrations
+├── 📁db
+│   └── 📁migrations
 │       ├── 20221015080129_create_users_table.sql
 │       ├── 20221015080146_create_departments_table.sql
 │       ├── 20221015080203_create_clinic_types_table.sql
@@ -90,30 +90,29 @@ $ npm run start
 │       └── 20221015080355_insert_users.sql
 ├── package-lock.json
 ├── package.json
-└── src
-    ├── Dto
+└── 📁src
+    ├── 📁Dto
     │   └── reservationDto.ts
-    ├── app.ts
-    ├── common_function
+    ├── 📁common_function
     │   ├── checkDate.ts
     │   ├── nodeemailer.ts
     │   └── validate_user.ts
-    ├── controllers
+    ├── 📁controllers
     │   └── reservationController.ts
-    ├── middleware
+    ├── 📁middleware
     │   ├── errorHandler.ts
     │   └── error_creator.ts
-    ├── models
+    ├── 📁models
     │   └── reservationDao.ts
-    ├── routes
+    ├── 📁routes
     │   └── reservation_router.ts
-    ├── server.ts
-    ├── services
+    ├── 📁services
     │   └── reservationService.ts
-    ├── tsconfig.json
-    └── typeorm
-        └── typeorm.ts
-
+    └── 📁typeorm
+    │   └── typeorm.ts
+    ├── server.ts
+    ├── app.ts
+    └── tsconfig.json
 
 ```
 
